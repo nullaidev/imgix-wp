@@ -22,8 +22,8 @@ class Image
     {
         $host = Core::imgixHost();
         $url = str_replace(WP_CONTENT_URL . '/' . $folder, 'https://' . $host, $url);
-
-        return $url . '?auto=format';
+        $query = Core::defaultImgixQuery();
+        return $url . ($query ? "?{$query}" : '');
     }
 
     /**

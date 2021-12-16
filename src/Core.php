@@ -6,6 +6,7 @@ class Core
     protected static array $options = [
         'admin' => false,
         'imgix_host' => null,
+        'imgix_query' => 'auto=format',
         'webp' => true,
         'ext_replace' => true,
     ];
@@ -13,23 +14,28 @@ class Core
     /**
      * @param array $options
      *
-     * - admin (bool)             - Default is `false`, set to `true` to allow in admin
+     * admin (bool)             - Default is `false`, set to `true` to allow in admin
      *
-     * - imgix_host (null|string) - Default is `null`, this is to be set to your imgix
-     *                              source URL
+     * imgix_host (null|string) - Default is `null`, this is to be set to your imgix
+     *                            source URL
      *
-     * - webp (bool)              - Default is `true`, this will rewrite image URLs as
-     *                              .webp even when imgix is not used
+     * imgix_query (string)     - Default is `auto=format`, adds query to all imgix
+     *                            image URLs.
      *
-     * - ext_replace (bool)       - Default is `true`, this will replace image extensions
-     *                              with .webp but when `false` will append .webp
+     * webp (bool)              - Default is `true`, this will rewrite image URLs as
+     *                            .webp even when imgix is not used
+     *
+     * ext_replace (bool)       - Default is `true`, this will replace image extensions
+     *                            with .webp but when `false` will append .webp
      *
      * @return void
      */
-    public static function init(array $options = [])
+    public static function init(array $options = []) : void
     {
         static::$options = array_merge(static::$options, $options, array_filter([
+            'admin' => defined('IMGIX_WP_ADMIN') ? constant('IMGIX_WP_ADMIN') : null,
             'imgix_host' => defined('IMGIX_WP_IMGIX_HOST') ? constant('IMGIX_WP_IMGIX_HOST') : null,
+            'imgix_query' => defined('IMGIX_WP_IMGIX_QUERY') ? constant('IMGIX_WP_IMGIX_QUERY') : null,
             'webp' => defined('IMGIX_WP_WEBP') ? constant('IMGIX_WP_WEBP') : null,
             'ext_replace' => defined('IMGIX_WP_EXT_REPLACE') ? constant('IMGIX_WP_EXT_REPLACE') : null,
         ]));
@@ -44,9 +50,14 @@ class Core
         add_filter( 'wp_calculate_image_srcset',  static::class . '::filter_wp_calculate_image_srcset');
     }
 
-    public static function imgixHost() : string
+    public static function imgixHost() : ?string
     {
-        return trim((string) static::$options['imgix_host'], "/\ \t\n\r\0\x0B");
+        return static::$options['imgix_host'];
+    }
+
+    public static function defaultImgixQuery() : string
+    {
+        return trim(static::$options['imgix_query']);
     }
 
     public static function maybeReplaceExtensionWithWebp() : bool
