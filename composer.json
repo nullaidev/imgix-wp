@@ -1,0 +1,21 @@
+{
+    "name": "nullaidev/imgix-wp",
+    "description": "Add imgix WordPress helpers",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ImgixWp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kevin Dees",
+            "email": "kevin@nullai.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.4"
+    }
+}
