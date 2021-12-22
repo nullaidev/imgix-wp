@@ -56,7 +56,7 @@ class Image
 
         $size = static::imgSize($size);
 
-        if(!Core::imgixHost()) {
+        if(!Core::imgixHost() || (empty($query) && !strpos($size, '?'))) {
             return wp_get_attachment_image_src($id, $size, $icon);
         }
 
@@ -83,7 +83,7 @@ class Image
 
         $size = static::imgSize($size);
 
-        if(!Core::imgixHost() || empty($query)) {
+        if(!Core::imgixHost() || (empty($query) && !strpos($size, '?'))) {
             return wp_get_attachment_image($id, $size, $icon, $attr);
         }
 
