@@ -50,9 +50,17 @@ class Image
         return $size ?? null;
     }
 
-    public static function getSrc($id, $size = 'thumbnail', $icon = false, array $query = [])
+    /**
+     * @param $id
+     * @param string $size
+     * @param bool $icon
+     * @param array $query
+     *
+     * @return array|bool|null
+     */
+    public static function getSrc($id, string $size = 'thumbnail', bool $icon = false, array $query = [])
     {
-        if(!$id) { return ''; }
+        if(!$id) { return null; }
 
         $size = static::imgSize($size);
 
@@ -60,7 +68,7 @@ class Image
             return wp_get_attachment_image_src($id, $size, $icon);
         }
 
-        if(!$src = wp_get_attachment_image_src($id, $size)) { return $src; }
+        if(!$src = wp_get_attachment_image_src($id, $size, $icon)) { return $src; }
 
         if(Core::imgixHost() && strpos($size, '?')) {
             parse_str(substr($size, strpos($size, '?') + 1), $s_query);
@@ -77,7 +85,16 @@ class Image
         return [$src[0] . $op . $query_str, $src[1], $src[2], $src[3] ?? false];
     }
 
-    public static function getImage($id, $size, $icon = false, array $attr = [], array $query = [])
+    /**
+     * @param $id
+     * @param string $size
+     * @param bool $icon
+     * @param array $attr
+     * @param array $query
+     *
+     * @return string
+     */
+    public static function getImage($id, string $size, bool $icon = false, array $attr = [], array $query = []) : string
     {
         if(!$id) { return ''; }
 
