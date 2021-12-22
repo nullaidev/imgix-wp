@@ -52,7 +52,8 @@ class Image
 
     /**
      * @param $id
-     * @param string $size
+     * @param string $size      When using imgix size you can append the query as a string by delimiting
+     *                          with the `?`. Example, `full:large?fit=crop&h=600&w=600&crop=faces`
      * @param bool $icon
      * @param array $query
      *
@@ -87,7 +88,8 @@ class Image
 
     /**
      * @param $id
-     * @param string $size
+     * @param string $size      When using imgix size you can append the query as a string by delimiting
+     *                          with the `?`. Example, `full:large?fit=crop&h=600&w=600&crop=faces`
      * @param bool $icon
      * @param array $attr
      * @param array $query
