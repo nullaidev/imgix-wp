@@ -48,7 +48,7 @@ for file in *; do cwebp -q 50 "$file" -o "${file%.*}.webp"; done
 
 ### imgix Activation
 
-In your themes `functions.php` file call `\ImgixWp\Core::init()` and provide your imgix source URL host name (exclude `https`).
+In your themes `functions.php` file call `\ImgixWp\Core::init()` and provide your imgix source URL host name (exclude `https`). The imix source must point to your `wp-content/uploads` folder.
 
 ```php
 // functions.php
